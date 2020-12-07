@@ -12,9 +12,20 @@ export const AuthorizationStatus = {
 
 export const APIRoute = {
   LOGIN: `/login`,
-  COMMENTS: `/comments/`,
+  COMMENTS: (id) => `/comments/${id}`,
   FAVORITE: `/favorite`,
   HOTEL: (id) => `/hotels/${id}`,
   HOTELS: `/hotels`,
   NEARBY: (id) => `/hotels/${id}/nearby`,
+};
+
+export const cities = [
+  `Paris`, `Cologne`, `Brussels`, `Amsterdam`, `Hamburg`, `Dusseldorf`
+];
+
+export const RoomType = {
+  APARTMENT: `Apratment`,
+  ROOM: `Private Room`,
+  HOUSE: `House`,
+  HOTEL: `Hotel`
 };

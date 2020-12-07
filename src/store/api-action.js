@@ -25,4 +25,10 @@ const fetchHotels = () => (dispatch, _getState, api) =>
     .get(APIRoute.HOTELS)
     .then((response) => dispatch(ActionCreator.loadHotels(response.data)));
 
-export { checkAuth, login, fetchHotels };
+const fetchReviews = (id) => (dispatch, _getState, api) =>
+  api
+    .get(APIRoute.COMMENTS(id))
+    .then((response) => dispatch(ActionCreator.loadReviews(response.data)))
+    .catch(err => console.log(err));
+
+export { checkAuth, login, fetchHotels, fetchReviews };

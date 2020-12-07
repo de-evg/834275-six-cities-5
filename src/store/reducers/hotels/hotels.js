@@ -1,3 +1,4 @@
+import {adaptHotelServerToClient} from "../../../utils/adapter";
 import { ActionType } from "../../action";
 
 const initialState = {
@@ -7,7 +8,8 @@ const initialState = {
 export const hotels = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.LOAD_HOTELS:
-      return { ...state, hotels: action.payload };
+      const adaptedHotels = action.payload.map((hotel) => adaptHotelServerToClient(hotel));
+      return { ...state, hotels: adaptedHotels };
   };
 
   return state;
