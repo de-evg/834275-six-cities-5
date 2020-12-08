@@ -23,6 +23,8 @@ export const cities = [
   `Paris`, `Cologne`, `Brussels`, `Amsterdam`, `Hamburg`, `Dusseldorf`
 ];
 
+export const DEFAULT_ACTIVE_CITY = `Paris`;
+
 export const RoomType = {
   APARTMENT: `Apratment`,
   ROOM: `Private Room`,

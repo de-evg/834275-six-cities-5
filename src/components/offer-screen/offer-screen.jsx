@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import User from "../user/user";
 import { appRoute, RoomType } from "../../const";
 import Reviews from "../reviews/reviews";
+import {fetchHotels} from "../../store/api-action";
 
 const MAX_IMAGES = 6;
 
@@ -12,8 +13,9 @@ const OfferScreen = ({ hotels, match: {params: {id}} }) => {
   const [neighbourhood, setNeighbourhood] = useState([]);
 
   useEffect(() => {
-    
-  });
+    loadHotel(id);
+  }, [id]);
+  
   const offer = hotels[0];
   const {
     isPremium,
@@ -305,10 +307,21 @@ const OfferScreen = ({ hotels, match: {params: {id}} }) => {
 
 OfferScreen.propTypes = {
   hotels: PropTypes.array.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string
+    })
+  }),
 };
 
 const mapStateToProps = (state) => ({
   hotels: state.HOTELS.hotels,
 });
 
-export default connect(mapStateToProps)(OfferScreen);
+const mapDispatchToProps = () => ({
+  loadHotel(id) {
+    fetchHotel(id)
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(OfferScreen);

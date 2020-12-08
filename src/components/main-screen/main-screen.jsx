@@ -1,6 +1,6 @@
 import React from "react";
 import CitiesList from "../cities-list/cities-list";
-import Places from "../places/places";
+import Offers from "../offers/offers";
 import User from "../user/user";
 
 const MainScreen = () => {
@@ -38,7 +38,7 @@ const MainScreen = () => {
         </div>
         <div className="cities">
           <div className="cities__places-container container">
-            <Places />
+            <Offers />
             <div className="cities__right-section">
               <section className="cities__map map"></section>
             </div>

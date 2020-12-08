@@ -4,8 +4,8 @@ import { RoomType } from "../../const";
 
 const MAX_RATING = 5;
 
-const PlacesItem = ({ place }) => {
-  const { isPremium, previewImage, price, rating, title, type } = place;
+const OffersItem = ({ offer }) => {
+  const { isPremium, previewImage, price, rating, title, type } = offer;
   const ratingToPercent = (Math.round(rating) * 100) / MAX_RATING;
   return (
     <article className="cities__place-card place-card">
@@ -54,8 +54,8 @@ const PlacesItem = ({ place }) => {
   );
 };
 
-PlacesItem.propTypes = {
-  place: PropTypes.object.isRequire,
+OffersItem.propTypes = {
+  offer: PropTypes.object.isRequire,
 };
 
-export default PlacesItem;
+export default OffersItem;
