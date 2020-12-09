@@ -48,7 +48,7 @@ const OffersItem = ({ offer }) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          <Link to={`${appRoute.OFFER}${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{RoomType[type.toUpperCase()]}</p>
       </div>
