@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { appRoute } from "../../const";
 import AuthScreen from "../auth-screen/auth-screen";
@@ -29,6 +30,14 @@ const App = () => {
       </Switch>
     </BrowserRouter>
   );
+};
+
+App.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      name: PropTypes.string.isRequired
+    })
+  }),
 };
 
 export default App;
