@@ -36,4 +36,4 @@ const fetchReviews = (id) => (dispatch, _getState, api) =>
     .then((response) => dispatch(ActionCreator.loadReviews(response.data)))
     .catch((err) => console.log(err));
 
-export { checkAuth, login, fetchHotels, fetchReviews };
+export { checkAuth, login, fetchHotels, fetchReviews, fetchHotel };

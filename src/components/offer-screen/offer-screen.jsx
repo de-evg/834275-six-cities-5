@@ -5,11 +5,11 @@ import PropTypes from "prop-types";
 import User from "../user/user";
 import { appRoute, RoomType } from "../../const";
 import Reviews from "../reviews/reviews";
-import {fetchHotels} from "../../store/api-action";
+import {fetchHotel} from "../../store/api-action";
 
 const MAX_IMAGES = 6;
 
-const OfferScreen = ({ hotels, match: {params: {id}} }) => {
+const OfferScreen = ({ hotels, loadHotel, match: {params: {id}} }) => {
   const [neighbourhood, setNeighbourhood] = useState([]);
 
   useEffect(() => {
@@ -312,15 +312,16 @@ OfferScreen.propTypes = {
       id: PropTypes.string
     })
   }),
+  loadHotel: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
   hotels: state.HOTELS.hotels,
 });
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = (dispatch) => ({
   loadHotel(id) {
-    fetchHotel(id)
+    dispatch(fetchHotel(id))
   }
 });
 

@@ -16,7 +16,7 @@ const App = () => {
 
         <Route
           exact
-          path={appRoute.OFFER}
+          path={`${appRoute.OFFER}:id`}
           render={(props) => <OfferScreen match={props.match} />}
         />
 

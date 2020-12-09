@@ -2,7 +2,7 @@ export const appRoute = {
   MAIN: `/`,
   SIGN_IN: `/login`,
   FAVORITES: `/favorites`,
-  OFFER: `/offer/:id`,
+  OFFER: `/offer/`,
 };
 
 export const AuthorizationStatus = {
