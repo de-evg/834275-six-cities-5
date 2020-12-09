@@ -7,6 +7,7 @@ const MAX_RATING = 5;
 const OffersItem = ({ offer }) => {
   const { isPremium, previewImage, price, rating, title, type } = offer;
   const ratingToPercent = (Math.round(rating) * 100) / MAX_RATING;
+
   return (
     <article className="cities__place-card place-card">
       {isPremium && (

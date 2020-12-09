@@ -23,11 +23,19 @@ export const cities = [
   `Paris`, `Cologne`, `Brussels`, `Amsterdam`, `Hamburg`, `Dusseldorf`
 ];
 
-export const DEFAULT_ACTIVE_CITY = `Paris`;
+export const DEFAULT_ACTIVE_FILTER = `Paris`;
+export const DEFAULT_ACTIVE_SORT = `POPULAR`;
 
 export const RoomType = {
   APARTMENT: `Apratment`,
   ROOM: `Private Room`,
   HOUSE: `House`,
   HOTEL: `Hotel`
+};
+
+export const SortType = {
+  POPULAR: `Popular`,
+  LOW_TO_HIGHT: `Price: low to high`,
+  HIGHT_TO_LOW: `Price: high to low`,
+  TOP_RATED: `Top rated first`,
 };

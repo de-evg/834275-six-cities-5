@@ -1,13 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import OfferItem from "../places-item/offers-item";
-import { connect } from "react-redux";
-import { getFilteredOffers } from "../../selectors";
+import OfferItem from "../offers-item/offers-item";
 
-const OffersList = ({ filteredOffers }) => {
+const OffersList = ({ offers }) => {
   return (
     <div className="cities__places-list places__list tabs__content">
-      {filteredOffers.map((offer, i) => (
+      {offers.map((offer, i) => (
         <OfferItem offer={offer} key={`place-${i}`} />
       ))}
     </div>
@@ -15,11 +13,7 @@ const OffersList = ({ filteredOffers }) => {
 };
 
 OffersList.propTypes = {
-  filteredOffers: PropTypes.array.isRequired,
+  offers: PropTypes.array.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  filteredOffers: getFilteredOffers(state)
-});
-
-export default connect(mapStateToProps)(OffersList);
+export default OffersList;

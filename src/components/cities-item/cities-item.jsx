@@ -1,28 +1,28 @@
 import React, {useCallback} from "react";
 import PropTypes from "prop-types";
 
-const CitiesItem = ({ city, isActive, activeCityChangeHandler }) => {
+const CitiesItem = ({ filter, isActive, activeFilterChangeHandler }) => {
   const activeClass = isActive ? `tabs__item--active` : ``;
   const classes = [`locations__item-link`, `tabs__item`, activeClass];
 
-  const handleActiveCityChange = useCallback((evt) => {
+  const handleActiveFilterChange = useCallback((evt) => {
     evt.preventDefault();
-    activeCityChangeHandler(city);
+    activeFilterChangeHandler(filter);
   });
 
   return (
-    <li className="locations__item" onClick={handleActiveCityChange}>
+    <li className="locations__item" onClick={handleActiveFilterChange}>
       <a className={classes.join(` `)} href="#">
-        <span>{city}</span>
+        <span>{filter}</span>
       </a>
     </li>
   );
 };
 
 CitiesItem.propTypes = {
-  city: PropTypes.string.isRequired,
+  filter: PropTypes.string.isRequired,
   isActive: PropTypes.bool.isRequired,
-  activeCityChangeHandler: PropTypes.func.isRequired
+  activeFilterChangeHandler: PropTypes.func.isRequired
 };
 
 export default CitiesItem;

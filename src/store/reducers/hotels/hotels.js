@@ -1,12 +1,13 @@
 import { adaptHotelServerToClient } from "../../../utils/adapter";
 import { ActionType } from "../../action";
-import { DEFAULT_ACTIVE_CITY } from "../../../const";
+import { DEFAULT_ACTIVE_FILTER, DEFAULT_ACTIVE_SORT } from "../../../const";
 
 const initialState = {
   hotels: [],
-  filterdHotels: [],
+  filteredHotels: [],
   hotel: {},
-  activeCity: DEFAULT_ACTIVE_CITY,
+  activeFilter: DEFAULT_ACTIVE_FILTER,
+  activeSort: DEFAULT_ACTIVE_SORT,
 };
 
 export const hotels = (state = initialState, action) => {
@@ -21,8 +22,11 @@ export const hotels = (state = initialState, action) => {
       const adaptedHotel = adaptHotelServerToClient(action.payload);
       return { ...state, hotel: adaptedHotel };
 
-    case ActionType.SET_ACTIVE_CITY:
-      return { ...state, activeCity: action.payload };
+    case ActionType.SET_ACTIVE_FILTER:
+      return { ...state, activeFilter: action.payload };
+
+    case ActionType.SET_ACTIVE_SORT:
+      return { ...state, activeSort: action.payload };
   }
 
   return state;

@@ -5,17 +5,17 @@ import { cities } from "../../const";
 import {connect} from "react-redux";
 import {ActionCreator} from "../../store/action";
 
-const CitiesList = ({activeCity, changeActiveCity}) => {
-  const handleActiveCityChange = useCallback((city) => changeActiveCity(city));
+const CitiesList = ({activeFilter, changeActiveFilter}) => {
+  const handleActiveFilterChange = useCallback((filter) => changeActiveFilter(filter));
 
   return (
     <ul className="locations__list tabs__list">
-      {cities.map((city, i) => (
+      {cities.map((filter, i) => (
         <CitiesItem
-          city={city}
+          filter={filter}
           key={`city-${i}`}
-          activeCityChangeHandler={handleActiveCityChange}
-          isActive={city === activeCity}
+          activeFilterChangeHandler={handleActiveFilterChange}
+          isActive={filter === activeFilter}
         />
       ))}
     </ul>
@@ -23,17 +23,17 @@ const CitiesList = ({activeCity, changeActiveCity}) => {
 };
 
 CitiesList.propTypes = {
-  changeActiveCity: PropTypes.func.isRequired,
-  activeCity: PropTypes.string.isRequired
+  changeActiveFilter: PropTypes.func.isRequired,
+  activeFilter: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  activeCity: state.HOTELS.activeCity
+  activeFilter: state.HOTELS.activeFilter
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  changeActiveCity(city) {
-    dispatch(ActionCreator.setActiveCity(city))
+  changeActiveFilter(city) {
+    dispatch(ActionCreator.setActiveFilter(city))
   }
 });
 

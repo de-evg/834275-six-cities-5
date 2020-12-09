@@ -4,7 +4,8 @@ const ActionType = {
   LOAD_HOTELS: `LOAD_HOTELS`,
   LOAD_HOTEL: `LOAD_HOTEL`,
   LOAD_REVIEWS: `LOAD_REVIEWS`,
-  SET_ACTIVE_CITY: `SET_ACTIVE_CITY`
+  SET_ACTIVE_FILTER: `SET_ACTIVE_FILTER`,
+  SET_ACTIVE_SORT: `SET_ACTIVE_SORT`
 };
 
 const ActionCreator = {
@@ -27,9 +28,13 @@ const ActionCreator = {
     type: `LOAD_REVIEWS`,
     payload: reviews,
   }),
-  setActiveCity: (city) => ({
-    type: `SET_ACTIVE_CITY`,
-    payload: city
+  setActiveFilter: (filter) => ({
+    type: `SET_ACTIVE_FILTER`,
+    payload: filter
+  }),
+  setActiveSort: (sort) => ({
+    type: `SET_ACTIVE_SORT`,
+    payload: sort
   })
 };
 
