@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { appRoute, RoomType } from "../../const";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const MAX_RATING = 5;
 
@@ -57,7 +57,7 @@ const OffersItem = ({ offer }) => {
 };
 
 OffersItem.propTypes = {
-  offer: PropTypes.object.isRequire,
+  offer: PropTypes.object.isRequired,
 };
 
 export default OffersItem;

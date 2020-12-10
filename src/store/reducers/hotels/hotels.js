@@ -6,6 +6,7 @@ const initialState = {
   hotels: [],
   filteredHotels: [],
   hotel: {},
+  citiesCoord: {},
   activeFilter: DEFAULT_ACTIVE_FILTER,
   activeSort: DEFAULT_ACTIVE_SORT,
 };
@@ -15,10 +16,10 @@ export const hotels = (state = initialState, action) => {
     case ActionType.LOAD_HOTELS:
       const adaptedHotels = action.payload.map((hotel) =>
         adaptHotelServerToClient(hotel)
-      );
+      );      
       return { ...state, hotels: adaptedHotels };
 
-    case ActionType.LOAD_HOTELS:
+    case ActionType.LOAD_HOTEL:
       const adaptedHotel = adaptHotelServerToClient(action.payload);
       return { ...state, hotel: adaptedHotel };
 

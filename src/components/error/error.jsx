@@ -1,9 +1,17 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-const Error = () => {
+const Error = ({err}) => {
   return (
-    <div>Сервер не доступен</div>
+    <>
+      <h1>Упс... что-то пошло не так...</h1>
+      <p>{err.message}</p>
+    </>
   );
+};
+
+Error.propTypes = {
+  err: PropTypes.object
 };
 
 export default Error;

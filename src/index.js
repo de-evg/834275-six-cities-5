@@ -34,6 +34,6 @@ Promise.all([store.dispatch(fetchHotels())])
       document.getElementById(`root`)
     );
   })
-  .catch(() => {
-    render(<Error />, document.getElementById(`root`));
+  .catch((err) => {
+    render(<Error err={err}/>, document.getElementById(`root`));
   });
