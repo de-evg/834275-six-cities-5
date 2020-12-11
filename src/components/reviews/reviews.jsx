@@ -1,13 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Review from "../review/reivew";
 import { fetchReviews } from "../../store/api-action";
 
 const Reviews = ({ offerID, reviews, loadReviews }) => {
+  const [isReviewsLoaded, setReviewsLoadedStatis] = useState(false); 
+
   useEffect(() => {
-    loadReviews(offerID);
-  }, [offerID, loadReviews, reviews]);
+    if (!isReviewsLoaded) {
+      setReviewsLoadedStatis(true);
+      loadReviews(offerID);      
+    }    
+  }, [offerID, loadReviews, reviews, isReviewsLoaded]);
 
   return (
     <section className="property__reviews reviews">
@@ -137,7 +142,7 @@ const Reviews = ({ offerID, reviews, loadReviews }) => {
 Reviews.propTypes = {
   reviews: PropTypes.array.isRequired,
   loadReviews: PropTypes.func.isRequired,
-  offerID: PropTypes.number.isRequired,
+  offerID: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({

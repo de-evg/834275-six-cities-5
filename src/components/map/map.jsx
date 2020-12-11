@@ -8,15 +8,15 @@ import {connect} from "react-redux";
 const Map = ({ offers, activeFilter }) => {
 
 const citiesCoords = getCitiesCoords(offers);
-console.log(citiesCoords.get(activeFilter));
   const icon = leaflet.icon({
     iconUrl: `img/pin.svg`,
     iconSize: [30, 30],
   });
   const city = [citiesCoords.get(activeFilter).latitude, citiesCoords.get(activeFilter).longitude]
   const zoom = citiesCoords.get(activeFilter).zoom;
+
   useEffect(() => {
-    const map = leaflet.map(`map`, {
+    let map = leaflet.map(`map`, {
       center: city,
       zoom: zoom,
       zoomControl: false,
@@ -40,7 +40,7 @@ console.log(citiesCoords.get(activeFilter));
         const {latitude, longitude} = filteredOffer.location;
         leaflet.marker([latitude, longitude], { icon }).addTo(map);
       });
-    
+    return () => map.remove();
   });
 
   return <div id="map"></div>;

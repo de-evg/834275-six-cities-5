@@ -8,7 +8,7 @@ const CitiesItem = ({ filter, isActive, activeFilterChangeHandler }) => {
   const handleActiveFilterChange = useCallback((evt) => {
     evt.preventDefault();
     activeFilterChangeHandler(filter);
-  });
+  }, [activeFilterChangeHandler, filter]);
 
   return (
     <li className="locations__item" onClick={handleActiveFilterChange}>

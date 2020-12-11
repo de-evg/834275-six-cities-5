@@ -5,7 +5,23 @@ import { DEFAULT_ACTIVE_FILTER, DEFAULT_ACTIVE_SORT } from "../../../const";
 const initialState = {
   hotels: [],
   filteredHotels: [],
-  hotel: {},
+  hotel: {
+    isPremium: false,
+    images: [],
+    title: ``,
+    rating: 0,
+    price: 0,
+    goods: [],
+    maxAdults: 0,
+    bedrooms: 0,
+    type: ``,
+    description: ``,
+    host: {
+      avatarUrl: ``,
+      isPro: false,
+      name: ``,
+    },
+  },
   citiesCoord: {},
   activeFilter: DEFAULT_ACTIVE_FILTER,
   activeSort: DEFAULT_ACTIVE_SORT,
@@ -16,7 +32,7 @@ export const hotels = (state = initialState, action) => {
     case ActionType.LOAD_HOTELS:
       const adaptedHotels = action.payload.map((hotel) =>
         adaptHotelServerToClient(hotel)
-      );      
+      );
       return { ...state, hotels: adaptedHotels };
 
     case ActionType.LOAD_HOTEL:
@@ -28,6 +44,9 @@ export const hotels = (state = initialState, action) => {
 
     case ActionType.SET_ACTIVE_SORT:
       return { ...state, activeSort: action.payload };
+      
+    case ActionType.RESET_HOTEL:
+      return { ...state, hotel: initialState.hotel };
   }
 
   return state;
