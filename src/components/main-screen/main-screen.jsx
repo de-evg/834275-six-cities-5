@@ -2,6 +2,7 @@ import React from "react";
 import CitiesList from "../cities-list/cities-list";
 import Offers from "../offers/offers";
 import User from "../user/user";
+import Map from "../map/map";
 
 const MainScreen = () => {
   return (
@@ -40,7 +41,9 @@ const MainScreen = () => {
           <div className="cities__places-container container">
             <Offers />
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section className="cities__map map" id="map">
+                <Map />
+              </section>
             </div>
           </div>
         </div>

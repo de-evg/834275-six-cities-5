@@ -9,24 +9,24 @@ const sortKeys = Object.keys(SortType);
 const SortTypes = ({ activeSort, changeActiveSort }) => {
   const [isShowed, setIsShowed] = useState(false);
 
-  const handleSortMenuClick = useCallback(() => setIsShowed(!isShowed));
+  const handleSortMenuClick = useCallback(() => setIsShowed(!isShowed), [isShowed]);
   const handleSortMenuItemClick = useCallback((evt) => {
     changeActiveSort(evt.target.id);
     setIsShowed(!isShowed);
-  });
+  }, [changeActiveSort, isShowed]);
 
   const handleEscPress = useCallback((evt) => {
     if (evt.key === `Escape`) {
       setIsShowed(false);
     }
-  });
+  }, []);
 
   useEffect(() => {
     if (isShowed) {
       document.addEventListener(`keydown`, handleEscPress);
     }
     return () => document.removeEventListener(`keydown`, handleEscPress);
-  }, [isShowed]);
+  }, [isShowed, handleEscPress]);
 
   return (
     <>

@@ -3,8 +3,10 @@ env:
   browser: true
   commonjs: true
 
-extends: 'plugin:react/recommended'
-
+extends: [
+  'plugin:react/recommended',
+  "plugin:react-hooks/recommended"
+]
 parserOptions:
   ecmaFeatures:
     jsx: true

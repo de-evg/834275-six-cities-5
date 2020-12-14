@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { RoomType } from "../../const";
+import { appRoute, RoomType } from "../../const";
+import { Link } from "react-router-dom";
 
 const MAX_RATING = 5;
 
 const OffersItem = ({ offer }) => {
-  const { isPremium, previewImage, price, rating, title, type } = offer;
+  const { isPremium, previewImage, price, rating, title, type, id } = offer;
   const ratingToPercent = (Math.round(rating) * 100) / MAX_RATING;
 
   return (
@@ -17,7 +18,7 @@ const OffersItem = ({ offer }) => {
       )}
 
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <Link to={`${appRoute.OFFER}${id}`}>
           <img
             className="place-card__image"
             src={previewImage}
@@ -25,7 +26,7 @@ const OffersItem = ({ offer }) => {
             height="200"
             alt="Place image"
           />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -47,7 +48,7 @@ const OffersItem = ({ offer }) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          <Link to={`${appRoute.OFFER}${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{RoomType[type.toUpperCase()]}</p>
       </div>
@@ -56,7 +57,7 @@ const OffersItem = ({ offer }) => {
 };
 
 OffersItem.propTypes = {
-  offer: PropTypes.object.isRequire,
+  offer: PropTypes.object.isRequired,
 };
 
 export default OffersItem;

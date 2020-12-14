@@ -25,15 +25,14 @@ const fetchHotels = () => (dispatch, _getState, api) =>
     .get(APIRoute.HOTELS)
     .then((response) => dispatch(ActionCreator.loadHotels(response.data)));
 
-const fetchHotel = () => (dispatch, _getState, api) =>
+const fetchHotel = (id) => (dispatch, _getState, api) =>
   api
-    .get(APIRoute.HOTEL)
+    .get(APIRoute.HOTEL(id))
     .then((response) => dispatch(ActionCreator.loadHotel(response.data)));
 
 const fetchReviews = (id) => (dispatch, _getState, api) =>
   api
     .get(APIRoute.COMMENTS(id))
-    .then((response) => dispatch(ActionCreator.loadReviews(response.data)))
-    .catch((err) => console.log(err));
+    .then((response) => dispatch(ActionCreator.loadReviews(response.data)));    
 
-export { checkAuth, login, fetchHotels, fetchReviews };
+export { checkAuth, login, fetchHotels, fetchReviews, fetchHotel };

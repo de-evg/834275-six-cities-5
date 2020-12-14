@@ -5,7 +5,8 @@ const ActionType = {
   LOAD_HOTEL: `LOAD_HOTEL`,
   LOAD_REVIEWS: `LOAD_REVIEWS`,
   SET_ACTIVE_FILTER: `SET_ACTIVE_FILTER`,
-  SET_ACTIVE_SORT: `SET_ACTIVE_SORT`
+  SET_ACTIVE_SORT: `SET_ACTIVE_SORT`,
+  RESET_HOTEL: `RESET_HOTEL`
 };
 
 const ActionCreator = {
@@ -35,6 +36,9 @@ const ActionCreator = {
   setActiveSort: (sort) => ({
     type: `SET_ACTIVE_SORT`,
     payload: sort
+  }),
+  resetHotel: () => ({
+    type: `RESET_HOTEL`
   })
 };
 
