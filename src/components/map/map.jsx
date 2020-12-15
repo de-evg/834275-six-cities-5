@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
+import "leaflet/dist/leaflet.css";
 import leaflet from "leaflet";
 import {getCitiesCoords} from "../../utils/common";
-import "leaflet/dist/leaflet.css";
 import {connect} from "react-redux";
 
 const Map = ({ offers, activeFilter }) => {

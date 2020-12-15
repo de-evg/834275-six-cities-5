@@ -4,10 +4,11 @@ import { appRoute, RoomType } from "../../const";
 import { Link } from "react-router-dom";
 
 const MAX_RATING = 5;
+const RATING_ELEMENT_WIDTH = 73;
 
 const OffersItem = ({ offer }) => {
   const { isPremium, previewImage, price, rating, title, type, id } = offer;
-  const ratingToPercent = (Math.round(rating) * 100) / MAX_RATING;
+  const ratingWidth = (Math.round(rating) * RATING_ELEMENT_WIDTH) / MAX_RATING;
 
   return (
     <article className="cities__place-card place-card">
@@ -43,7 +44,7 @@ const OffersItem = ({ offer }) => {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: ratingToPercent }}></span>
+            <span style={{ width: ratingWidth }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
