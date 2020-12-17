@@ -8,10 +8,15 @@ import Reviews from "../reviews/reviews";
 import { fetchHotel } from "../../store/api-action";
 import Gallery from "../gallery/gallery";
 import { ActionCreator } from "../../store/action";
+import { getNearOffers } from "../../selectors";
+import OffersItem from "../offers-item/offers-item";
+import Map from "../map/map";
+
+const MAX_NEAR_OFFERS = 3;
 
 const OfferScreen = ({
-  hotels,
   hotel,
+  nearHotels,
   loadHotel,
   match: {
     params: { id },
@@ -20,8 +25,8 @@ const OfferScreen = ({
   const [neighbourhood, setNeighbourhood] = useState([]);
   const [isFetched, setFetchStatus] = useState(false);
   const [offerInfo, setOffer] = useState({ isLoaded: false, offer: `` });
-  const { isLoaded, offer } = offerInfo;
-
+  const { isLoaded } = offerInfo;  
+  
   useEffect(() => {
     if (!isFetched) {
       loadHotel(id);
@@ -51,8 +56,7 @@ const OfferScreen = ({
 
   const MAX_RATING = 5;
   const RATING_ELEMENT_WIDTH = 147;
-  const ratingWidth =
-    (Math.round(rating) * RATING_ELEMENT_WIDTH) / MAX_RATING;
+  const ratingWidth = (Math.round(rating) * RATING_ELEMENT_WIDTH) / MAX_RATING;
 
   return (
     isLoaded && (
@@ -162,7 +166,9 @@ const OfferScreen = ({
                 <Reviews offerID={id} />
               </div>
             </div>
-            <section className="property__map map"></section>
+            <section className="property__map map" id="map">
+              <Map />
+            </section>
           </section>
           <div className="container">
             <section className="near-places places">
@@ -170,7 +176,9 @@ const OfferScreen = ({
                 Other places in the neighbourhood
               </h2>
               <div className="near-places__list places__list">
-                {hotels.filter(())}
+                {nearHotels.slice(0, MAX_NEAR_OFFERS).map((hotel, i) => (
+                  <OffersItem offer={hotel} key={`near-offer-${i}`} />
+                ))}
               </div>
             </section>
           </div>
@@ -189,11 +197,13 @@ OfferScreen.propTypes = {
     }),
   }),
   loadHotel: PropTypes.func.isRequired,
+  nearHotels: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   hotels: state.HOTELS.hotels,
   hotel: state.HOTELS.hotel,
+  nearHotels: getNearOffers(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

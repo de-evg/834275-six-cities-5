@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import CitiesList from "../cities-list/cities-list";
 import Offers from "../offers/offers";
 import User from "../user/user";
 import Map from "../map/map";
+import { connect } from "react-redux";
+import {ActionCreator} from "../../store/action";
 
-const MainScreen = () => {
+const MainScreen = ({ resetActiveOffer }) => {
+  useEffect(() => {
+    resetActiveOffer();
+  });
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -52,4 +59,14 @@ const MainScreen = () => {
   );
 };
 
-export default MainScreen;
+MainScreen.propTypes = {
+  resetActiveOffer: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  resetActiveOffer() {
+    dispatch(ActionCreator.resetHotel());
+  },
+});
+
+export default connect(null, mapDispatchToProps)(MainScreen);

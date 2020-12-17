@@ -22,6 +22,7 @@ const initialState = {
       name: ``,
     },
   },
+  nearHotels: [],
   citiesCoord: {},
   activeFilter: DEFAULT_ACTIVE_FILTER,
   activeSort: DEFAULT_ACTIVE_SORT,
