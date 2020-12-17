@@ -1,7 +1,7 @@
 import { APIRoute } from "../const";
 import { ActionCreator } from "./action";
 
-const checkAuth = () => (dispatch, _getState, api) =>
+export const checkAuth = () => (dispatch, _getState, api) =>
   api
     .get(APIRoute.LOGIN)
     .then((response) => dispatch(ActionCreator.setUserInfo(response.data)))
@@ -12,7 +12,11 @@ const checkAuth = () => (dispatch, _getState, api) =>
       Promise.reject(err.response);
     });
 
-const login = ({ login: email, password }) => (dispatch, _getState, api) =>
+export const login = ({ login: email, password }) => (
+  dispatch,
+  _getState,
+  api
+) =>
   api
     .post(APIRoute.LOGIN, { email, password })
     .then((response) => dispatch(ActionCreator.setUserInfo(response.data)))
@@ -20,19 +24,26 @@ const login = ({ login: email, password }) => (dispatch, _getState, api) =>
       dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH))
     );
 
-const fetchHotels = () => (dispatch, _getState, api) =>
+export const fetchHotels = () => (dispatch, _getState, api) =>
   api
     .get(APIRoute.HOTELS)
     .then((response) => dispatch(ActionCreator.loadHotels(response.data)));
 
-const fetchHotel = (id) => (dispatch, _getState, api) =>
+export const fetchHotel = (id) => (dispatch, _getState, api) =>
   api
     .get(APIRoute.HOTEL(id))
     .then((response) => dispatch(ActionCreator.loadHotel(response.data)));
 
-const fetchReviews = (id) => (dispatch, _getState, api) =>
+export const fetchReviews = (id) => (dispatch, _getState, api) =>
   api
     .get(APIRoute.COMMENTS(id))
-    .then((response) => dispatch(ActionCreator.loadReviews(response.data)));    
+    .then((response) => dispatch(ActionCreator.loadReviews(response.data)));
 
-export { checkAuth, login, fetchHotels, fetchReviews, fetchHotel };
+export const changeFavoriteStatus = (id, status) => (
+  dispatch,
+  _getState,
+  api
+) =>
+  api
+    .post(`${APIRoute.FAVORITE(id)}/${status}`)
+    .then(({ data }) => dispatch(ActionCreator.updateHotels(data)));

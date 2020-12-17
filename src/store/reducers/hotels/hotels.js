@@ -45,9 +45,12 @@ export const hotels = (state = initialState, action) => {
 
     case ActionType.SET_ACTIVE_SORT:
       return { ...state, activeSort: action.payload };
-      
+
     case ActionType.RESET_HOTEL:
       return { ...state, hotel: initialState.hotel };
+
+    case ActionType.UPDATE_HOTEL:
+      return { ...state, hotels: action.payload };
   }
 
   return state;

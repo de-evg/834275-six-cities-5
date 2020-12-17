@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -11,6 +11,8 @@ import { ActionCreator } from "../../store/action";
 import { getNearOffers } from "../../selectors";
 import OffersItem from "../offers-item/offers-item";
 import Map from "../map/map";
+import { changeFavoriteStatus } from "../../store/api-action";
+import {AuthorizationStatus} from "../../const";
 
 const MAX_NEAR_OFFERS = 3;
 
@@ -21,23 +23,13 @@ const OfferScreen = ({
   match: {
     params: { id },
   },
+  favoriteStatusChangeHandler,
+  authStatus
 }) => {
   const [neighbourhood, setNeighbourhood] = useState([]);
   const [isFetched, setFetchStatus] = useState(false);
   const [offerInfo, setOffer] = useState({ isLoaded: false, offer: `` });
-  const { isLoaded } = offerInfo;  
-  
-  useEffect(() => {
-    if (!isFetched) {
-      loadHotel(id);
-      setFetchStatus(true);
-    }
-
-    if (!isLoaded) {
-      setOffer({ ...offerInfo, isLoaded: true, offer: hotel });
-    }
-    return () => ActionCreator.resetHotel();
-  }, [loadHotel, isFetched, id, isLoaded, hotel, offerInfo]);
+  const { isLoaded } = offerInfo;
 
   const {
     isPremium,
@@ -51,8 +43,26 @@ const OfferScreen = ({
     type,
     description,
     host,
+    isFavorite,
   } = hotel;
   const { avatarUrl, isPro, name } = host;
+
+  const handleFavoriteChange = useCallback(() =>
+    favoriteStatusChangeHandler(id, +!isFavorite),
+    [favoriteStatusChangeHandler, id, isFavorite]
+  );
+
+  useEffect(() => {
+    if (!isFetched) {
+      loadHotel(id);
+      setFetchStatus(true);
+    }
+
+    if (!isLoaded) {
+      setOffer({ ...offerInfo, isLoaded: true, offer: hotel });
+    }
+    return () => ActionCreator.resetHotel();
+  }, [loadHotel, isFetched, id, isLoaded, hotel, offerInfo]);
 
   const MAX_RATING = 5;
   const RATING_ELEMENT_WIDTH = 147;
@@ -96,18 +106,30 @@ const OfferScreen = ({
                 </div>
                 <div className="property__name-wrapper">
                   <h1 className="property__name">{title}</h1>
-
                   <button
                     className="property__bookmark-button button"
                     type="button"
+                    onClick={handleFavoriteChange}
+                    disabled={authStatus === AuthorizationStatus.NO_AUTH}
                   >
-                    <svg
-                      className="property__bookmark-icon"
-                      width="31"
-                      height="33"
-                    >
-                      <use xlinkHref="#icon-bookmark"></use>
-                    </svg>
+                    {isFavorite ? (
+                      <svg
+                        className="property__bookmark-icon property__bookmark-button--active place-card__bookmark-icon"
+                        width="31"
+                        height="33"
+                      >
+                        <use xlinkHref="#icon-bookmark"></use>
+                      </svg>
+                    ) : (
+                      <svg
+                        className="property__bookmark-icon"
+                        width="31"
+                        height="33"
+                      >
+                        <use xlinkHref="#icon-bookmark"></use>
+                      </svg>
+                    )}
+
                     <span className="visually-hidden">To bookmarks</span>
                   </button>
                 </div>
@@ -198,17 +220,23 @@ OfferScreen.propTypes = {
   }),
   loadHotel: PropTypes.func.isRequired,
   nearHotels: PropTypes.array.isRequired,
+  favoriteStatusChangeHandler: PropTypes.func.isRequired,
+  authStatus: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
   hotels: state.HOTELS.hotels,
   hotel: state.HOTELS.hotel,
   nearHotels: getNearOffers(state),
+  authStatus: state.USER.authStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({
   loadHotel(id) {
     dispatch(fetchHotel(id));
+  },
+  favoriteStatusChangeHandler(id, status) {
+    dispatch(changeFavoriteStatus(id, status));
   },
 });
 

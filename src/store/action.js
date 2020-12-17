@@ -6,7 +6,8 @@ const ActionType = {
   LOAD_REVIEWS: `LOAD_REVIEWS`,
   SET_ACTIVE_FILTER: `SET_ACTIVE_FILTER`,
   SET_ACTIVE_SORT: `SET_ACTIVE_SORT`,
-  RESET_HOTEL: `RESET_HOTEL`
+  RESET_HOTEL: `RESET_HOTEL`,
+  UPDATE_HOTEL: `UPDATE_HOTEL`
 };
 
 const ActionCreator = {
@@ -39,6 +40,10 @@ const ActionCreator = {
   }),
   resetHotel: () => ({
     type: `RESET_HOTEL`
+  }),
+  updateHotels: (update) => ({
+    type: `UPDATE_HOTEL`,
+    payload: update
   })
 };
 

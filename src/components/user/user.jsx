@@ -1,24 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { AuthorizationStatus } from "../../const";
+import { appRoute, AuthorizationStatus } from "../../const";
+import {Link} from "react-router-dom";
 
 const User = ({ authStatus }) => {
   return authStatus === AuthorizationStatus.AUTH ? (
     <li className="header__nav-item user">
-      <a className="header__nav-link header__nav-link--profile" href="#">
+      <Link className="header__nav-link header__nav-link--profile" to={appRoute.FAVORITES}>
         <div className="header__avatar-wrapper user__avatar-wrapper"></div>
         <span className="header__user-name user__name">
           Oliver.conner@gmail.com
         </span>
-      </a>
+      </Link>
     </li>
   ) : (
     <li className="header__nav-item user">
-      <a className="header__nav-link header__nav-link--profile" href="#">
+      <Link className="header__nav-link header__nav-link--profile" to={appRoute.SIGN_IN}>
         <div className="header__avatar-wrapper user__avatar-wrapper"></div>
         <span className="header__login">Sign in</span>
-      </a>
+      </Link>
     </li>
   );
 };
