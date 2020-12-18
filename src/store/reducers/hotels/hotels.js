@@ -22,6 +22,7 @@ const initialState = {
       name: ``,
     },
   },
+  nearHotels: [],
   citiesCoord: {},
   activeFilter: DEFAULT_ACTIVE_FILTER,
   activeSort: DEFAULT_ACTIVE_SORT,
@@ -44,9 +45,18 @@ export const hotels = (state = initialState, action) => {
 
     case ActionType.SET_ACTIVE_SORT:
       return { ...state, activeSort: action.payload };
-      
+
     case ActionType.RESET_HOTEL:
       return { ...state, hotel: initialState.hotel };
+
+    case ActionType.UPDATE_HOTEL:
+      return { ...state, hotels: action.payload };
+
+    case ActionType.LOAD_NEAR_HOTELS:
+      const adaptedNearHotels = action.payload.map((hotel) =>
+        adaptHotelServerToClient(hotel)
+      );
+      return { ...state, nearHotels: adaptedNearHotels };
   }
 
   return state;

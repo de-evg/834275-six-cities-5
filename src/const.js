@@ -13,7 +13,7 @@ export const AuthorizationStatus = {
 export const APIRoute = {
   LOGIN: `/login`,
   COMMENTS: (id) => `/comments/${id}`,
-  FAVORITE: `/favorite`,
+  FAVORITE: (id) => `/favorite/${id}`,
   HOTEL: (id) => `/hotels/${id}`,
   HOTELS: `/hotels`,
   NEARBY: (id) => `/hotels/${id}/nearby`,

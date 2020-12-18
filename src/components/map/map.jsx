@@ -1,19 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import leaflet from "leaflet";
-import {getCitiesCoords} from "../../utils/common";
 import "leaflet/dist/leaflet.css";
-import {connect} from "react-redux";
+import leaflet from "leaflet";
+import { getCitiesCoords } from "../../utils/common";
+import { connect } from "react-redux";
 
-const Map = ({ offers, activeFilter }) => {
-
-const citiesCoords = getCitiesCoords(offers);
-  const icon = leaflet.icon({
+const Map = ({ offers, activeOffer, activeFilter }) => {
+  const citiesCoords = getCitiesCoords(offers);
+  const defaultIcon = leaflet.icon({
     iconUrl: `img/pin.svg`,
     iconSize: [30, 30],
   });
-  const city = [citiesCoords.get(activeFilter).latitude, citiesCoords.get(activeFilter).longitude]
+
+  const activeIcon = leaflet.icon({
+    iconUrl: `img/pin-active.svg`,
+    iconSize: [30, 30],
+  });
+
+  const city = [
+    citiesCoords.get(activeFilter).latitude,
+    citiesCoords.get(activeFilter).longitude,
+  ];
   const zoom = citiesCoords.get(activeFilter).zoom;
+
+  const handlePinMouseOver = useCallback(
+    (evt) => evt.target.setIcon(activeIcon),
+    [activeIcon]
+  );
+  const handlePinMouseOut = useCallback(
+    (evt) => evt.target.setIcon(defaultIcon),
+    [defaultIcon]
+  );
 
   useEffect(() => {
     let map = leaflet.map(`map`, {
@@ -33,12 +50,21 @@ const citiesCoords = getCitiesCoords(offers);
         }
       )
       .addTo(map);
-    
+
     const offerCords = [52.3709553943508, 4.89309666406198];
-    offers.filter((offer) => offer.city.name === activeFilter)
-      .forEach(filteredOffer => {
-        const {latitude, longitude} = filteredOffer.location;
-        leaflet.marker([latitude, longitude], { icon }).addTo(map);
+    offers
+      .filter((offer) => offer.city.name === activeFilter)
+      .forEach((filteredOffer) => {
+        const { latitude, longitude } = filteredOffer.location;
+        const icon =
+          filteredOffer.id === activeOffer.id ? activeIcon : defaultIcon;
+        const marker = leaflet
+          .marker([latitude, longitude], { icon })
+          .addTo(map);
+        if (!(filteredOffer.id === activeOffer.id)) {
+          marker.on(`mouseover`, handlePinMouseOver);
+          marker.on(`mouseout`, handlePinMouseOut);
+        }        
       });
     return () => map.remove();
   });
@@ -48,12 +74,14 @@ const citiesCoords = getCitiesCoords(offers);
 
 Map.propTypes = {
   offers: PropTypes.array.isRequired,
-  activeFilter: PropTypes.string.isRequired
+  activeFilter: PropTypes.string.isRequired,
+  activeOffer: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   offers: state.HOTELS.hotels,
-  activeFilter: state.HOTELS.activeFilter
+  activeOffer: state.HOTELS.hotel,
+  activeFilter: state.HOTELS.activeFilter,
 });
 
 export default connect(mapStateToProps)(Map);
