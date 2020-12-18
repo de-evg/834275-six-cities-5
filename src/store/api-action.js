@@ -1,5 +1,6 @@
 import { APIRoute } from "../const";
 import { ActionCreator } from "./action";
+import { AuthorizationStatus } from "../const";
 
 export const checkAuth = () => (dispatch, _getState, api) =>
   api
@@ -12,11 +13,7 @@ export const checkAuth = () => (dispatch, _getState, api) =>
       Promise.reject(err.response);
     });
 
-export const login = ({ login: email, password }) => (
-  dispatch,
-  _getState,
-  api
-) =>
+export const login = ({ email, password }) => (dispatch, _getState, api) =>
   api
     .post(APIRoute.LOGIN, { email, password })
     .then((response) => dispatch(ActionCreator.setUserInfo(response.data)))

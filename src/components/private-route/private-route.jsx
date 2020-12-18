@@ -21,8 +21,8 @@ PrivateRoute.propTypes = {
   render: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) => ({
   authStatus: state.USER.authStatus
-};
+});
 
 export default connect(mapStateToProps)(PrivateRoute);
