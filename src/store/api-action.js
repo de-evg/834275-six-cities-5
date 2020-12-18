@@ -39,6 +39,11 @@ export const fetchReviews = (id) => (dispatch, _getState, api) =>
     .get(APIRoute.COMMENTS(id))
     .then((response) => dispatch(ActionCreator.loadReviews(response.data)));
 
+export const fetchNearHotels = (id) => (dispatch, _getState, api) =>
+  api
+    .get(APIRoute.NEARBY(id))
+    .then((response) => dispatch(ActionCreator.loadNearHotels(response.data)));
+
 export const changeFavoriteStatus = (id, status) => (
   dispatch,
   _getState,

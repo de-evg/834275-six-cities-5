@@ -8,25 +8,21 @@ import Reviews from "../reviews/reviews";
 import { fetchHotel } from "../../store/api-action";
 import Gallery from "../gallery/gallery";
 import { ActionCreator } from "../../store/action";
-import { getNearOffers } from "../../selectors";
-import OffersItem from "../offers-item/offers-item";
 import Map from "../map/map";
 import { changeFavoriteStatus } from "../../store/api-action";
-import {AuthorizationStatus} from "../../const";
-
-const MAX_NEAR_OFFERS = 3;
+import { AuthorizationStatus } from "../../const";
+import NearOffersList from "../near-offers-list/near-offers-list";
 
 const OfferScreen = ({
   hotel,
-  nearHotels,
+
   loadHotel,
   match: {
     params: { id },
   },
   favoriteStatusChangeHandler,
-  authStatus
+  authStatus,
 }) => {
-  const [neighbourhood, setNeighbourhood] = useState([]);
   const [isFetched, setFetchStatus] = useState(false);
   const [offerInfo, setOffer] = useState({ isLoaded: false, offer: `` });
   const { isLoaded } = offerInfo;
@@ -47,8 +43,8 @@ const OfferScreen = ({
   } = hotel;
   const { avatarUrl, isPro, name } = host;
 
-  const handleFavoriteChange = useCallback(() =>
-    favoriteStatusChangeHandler(id, +!isFavorite),
+  const handleFavoriteChange = useCallback(
+    () => favoriteStatusChangeHandler(id, +!isFavorite),
     [favoriteStatusChangeHandler, id, isFavorite]
   );
 
@@ -197,11 +193,7 @@ const OfferScreen = ({
               <h2 className="near-places__title">
                 Other places in the neighbourhood
               </h2>
-              <div className="near-places__list places__list">
-                {nearHotels.slice(0, MAX_NEAR_OFFERS).map((hotel, i) => (
-                  <OffersItem offer={hotel} key={`near-offer-${i}`} />
-                ))}
-              </div>
+              <NearOffersList offerId={id} />
             </section>
           </div>
         </main>
@@ -219,16 +211,14 @@ OfferScreen.propTypes = {
     }),
   }),
   loadHotel: PropTypes.func.isRequired,
-  nearHotels: PropTypes.array.isRequired,
   favoriteStatusChangeHandler: PropTypes.func.isRequired,
-  authStatus: PropTypes.string.isRequired
+  authStatus: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   hotels: state.HOTELS.hotels,
   hotel: state.HOTELS.hotel,
-  nearHotels: getNearOffers(state),
-  authStatus: state.USER.authStatus
+  authStatus: state.USER.authStatus,
 });
 
 const mapDispatchToProps = (dispatch) => ({

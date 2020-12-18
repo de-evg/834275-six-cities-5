@@ -51,6 +51,12 @@ export const hotels = (state = initialState, action) => {
 
     case ActionType.UPDATE_HOTEL:
       return { ...state, hotels: action.payload };
+
+    case ActionType.LOAD_NEAR_HOTELS:
+      const adaptedNearHotels = action.payload.map((hotel) =>
+        adaptHotelServerToClient(hotel)
+      );
+      return { ...state, nearHotels: adaptedNearHotels };
   }
 
   return state;

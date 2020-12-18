@@ -7,7 +7,8 @@ const ActionType = {
   SET_ACTIVE_FILTER: `SET_ACTIVE_FILTER`,
   SET_ACTIVE_SORT: `SET_ACTIVE_SORT`,
   RESET_HOTEL: `RESET_HOTEL`,
-  UPDATE_HOTEL: `UPDATE_HOTEL`
+  UPDATE_HOTEL: `UPDATE_HOTEL`,
+  LOAD_NEAR_HOTELS: `LOAD_NEAR_HOTELS`
 };
 
 const ActionCreator = {
@@ -44,6 +45,10 @@ const ActionCreator = {
   updateHotels: (update) => ({
     type: `UPDATE_HOTEL`,
     payload: update
+  }),
+  loadNearHotels: (hotels) => ({
+    type: `LOAD_NEAR_HOTELS`,
+    payload: hotels
   })
 };
 
