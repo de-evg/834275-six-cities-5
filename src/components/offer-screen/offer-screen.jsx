@@ -9,7 +9,7 @@ import { fetchHotel } from "../../store/api-action";
 import Gallery from "../gallery/gallery";
 import { ActionCreator } from "../../store/action";
 import Map from "../map/map";
-import { changeFavoriteStatus } from "../../store/api-action";
+import { updateFavoriteStatus } from "../../store/api-action";
 import { AuthorizationStatus } from "../../const";
 import NearOffersList from "../near-offers-list/near-offers-list";
 
@@ -20,7 +20,7 @@ const OfferScreen = ({
   match: {
     params: { id },
   },
-  favoriteStatusChangeHandler,
+  favoriteBtnClickHandler,
   authStatus,
 }) => {
   const [isFetched, setFetchStatus] = useState(false);
@@ -43,10 +43,11 @@ const OfferScreen = ({
   } = hotel;
   const { avatarUrl, isPro, name } = host;
 
-  const handleFavoriteChange = useCallback(
-    () => favoriteStatusChangeHandler(id, +!isFavorite),
-    [favoriteStatusChangeHandler, id, isFavorite]
-  );
+  const handleFavoriteBtnClick = useCallback((evt) => {
+    evt.preventDefault();
+    favoriteBtnClickHandler(id, +!isFavorite);
+    loadHotel(id);
+  }, [favoriteBtnClickHandler, id, isFavorite]);
 
   useEffect(() => {
     if (!isFetched) {
@@ -63,6 +64,10 @@ const OfferScreen = ({
   const MAX_RATING = 5;
   const RATING_ELEMENT_WIDTH = 147;
   const ratingWidth = (Math.round(rating) * RATING_ELEMENT_WIDTH) / MAX_RATING;
+
+  const defaultFavoriteBtnClasses = [`property__bookmark-button button`];
+  const activeFavoriteBtnClasses = [...defaultFavoriteBtnClasses, `property__bookmark-button--active`];
+  const favoriteBtnClasses = isFavorite ? activeFavoriteBtnClasses.join(` `) : defaultFavoriteBtnClasses.join(``);
 
   return (
     isLoaded && (
@@ -103,28 +108,19 @@ const OfferScreen = ({
                 <div className="property__name-wrapper">
                   <h1 className="property__name">{title}</h1>
                   <button
-                    className="property__bookmark-button button"
+                    className={favoriteBtnClasses}
                     type="button"
-                    onClick={handleFavoriteChange}
+                    onClick={handleFavoriteBtnClick}
                     disabled={authStatus === AuthorizationStatus.NO_AUTH}
                   >
-                    {isFavorite ? (
                       <svg
-                        className="property__bookmark-icon property__bookmark-button--active place-card__bookmark-icon"
+                        className="property__bookmark-icon  place-card__bookmark-icon"
                         width="31"
                         height="33"
                       >
                         <use xlinkHref="#icon-bookmark"></use>
                       </svg>
-                    ) : (
-                      <svg
-                        className="property__bookmark-icon"
-                        width="31"
-                        height="33"
-                      >
-                        <use xlinkHref="#icon-bookmark"></use>
-                      </svg>
-                    )}
+                    
 
                     <span className="visually-hidden">To bookmarks</span>
                   </button>
@@ -211,7 +207,7 @@ OfferScreen.propTypes = {
     }),
   }),
   loadHotel: PropTypes.func.isRequired,
-  favoriteStatusChangeHandler: PropTypes.func.isRequired,
+  favoriteBtnClickHandler: PropTypes.func.isRequired,
   authStatus: PropTypes.string.isRequired,
 };
 
@@ -225,8 +221,8 @@ const mapDispatchToProps = (dispatch) => ({
   loadHotel(id) {
     dispatch(fetchHotel(id));
   },
-  favoriteStatusChangeHandler(id, status) {
-    dispatch(changeFavoriteStatus(id, status));
+  favoriteBtnClickHandler(id, status) {
+    dispatch(updateFavoriteStatus(id, status));
   },
 });
 

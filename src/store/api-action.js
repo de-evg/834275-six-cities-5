@@ -49,3 +49,12 @@ export const changeFavoriteStatus = (id, status) => (
   api
     .post(`${APIRoute.FAVORITE(id)}/${status}`)
     .then(({ data }) => dispatch(ActionCreator.updateHotels(data)));
+
+export const updateFavoriteStatus = (id, status) => (
+  dispatch,
+  _getState,
+  api
+) =>
+  api
+    .post(`${APIRoute.FAVORITE(id)}/${status}`)
+    .then((response) => dispatch(ActionCreator.updateHotel(response.data)));
