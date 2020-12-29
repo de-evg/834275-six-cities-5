@@ -1,10 +1,13 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { appRoute } from "../../const";
 import User from "../user/user";
 import FavoriteList from "../favorite-list/favirite-list";
+import { connect } from "react-redux";
+import { getFavoriteHotels } from "../../selectors";
 
-const FavoritesScreen = () => {
+const FavoritesScreen = ({ favoriteHotels }) => {
   return (
     <div className="page">
       <header className="header">
@@ -32,10 +35,23 @@ const FavoritesScreen = () => {
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <FavoriteList />
-          </section>
+          {!favoriteHotels.length ? (
+            <section className="favorites favorites--empty">
+              <h1 className="visually-hidden">Favorites (empty)</h1>
+              <div className="favorites__status-wrapper">
+                <b className="favorites__status">Nothing yet saved.</b>
+                <p className="favorites__status-description">
+                  Save properties to narrow down search or plan yor future
+                  trips.
+                </p>
+              </div>
+            </section>
+          ) : (
+            <section className="favorites">
+              <h1 className="favorites__title">Saved listing</h1>
+              <FavoriteList />
+            </section>
+          )}
         </div>
       </main>
       <footer className="footer container">
@@ -53,4 +69,12 @@ const FavoritesScreen = () => {
   );
 };
 
-export default FavoritesScreen;
+FavoritesScreen.propTypes = {
+  favoriteHotels: PropTypes.array.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  favoriteHotels: getFavoriteHotels(state),
+});
+
+export default connect(mapStateToProps)(FavoritesScreen);

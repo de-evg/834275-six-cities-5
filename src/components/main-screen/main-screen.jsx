@@ -6,11 +6,16 @@ import User from "../user/user";
 import Map from "../map/map";
 import { connect } from "react-redux";
 import { ActionCreator } from "../../store/action";
+import { getFilteredOffers } from "../../selectors";
 
-const MainScreen = ({ resetActiveOffer }) => {
+const MainScreen = ({ resetActiveOffer, filteredOffers }) => {
   useEffect(() => {
     resetActiveOffer();
   });
+
+  const mainClasses = filteredOffers.length
+    ? `page__main page__main--index`
+    : `page__main page__main--indexpage__main--index-empty`;
 
   return (
     <div className="page page--gray page--main">
@@ -37,7 +42,7 @@ const MainScreen = ({ resetActiveOffer }) => {
         </div>
       </header>
 
-      <main className="page__main page__main--index">
+      <main className={mainClasses}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
@@ -45,14 +50,29 @@ const MainScreen = ({ resetActiveOffer }) => {
           </section>
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <Offers />
-            <div className="cities__right-section">
-              <section className="cities__map map" id="map">
-                <Map />
+          {!filteredOffers.length ? (
+            <div className="cities__places-container cities__places-container--empty container">
+              <section className="cities__no-places">
+                <div className="cities__status-wrapper tabs__content">
+                  <b className="cities__status">No places to stay available</b>
+                  <p className="cities__status-description">
+                    We could not find any property available at the moment in
+                    Dusseldorf
+                  </p>
+                </div>
               </section>
+              <div className="cities__right-section"></div>
             </div>
-          </div>
+          ) : (
+            <div className="cities__places-container container">
+              <Offers />
+              <div className="cities__right-section">
+                <section className="cities__map map" id="map">
+                  <Map />
+                </section>
+              </div>
+            </div>
+          )}
         </div>
       </main>
     </div>
@@ -61,7 +81,12 @@ const MainScreen = ({ resetActiveOffer }) => {
 
 MainScreen.propTypes = {
   resetActiveOffer: PropTypes.func.isRequired,
+  filteredOffers: PropTypes.array.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  filteredOffers: getFilteredOffers(state),
+});
 
 const mapDispatchToProps = (dispatch) => ({
   resetActiveOffer() {
@@ -69,4 +94,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(null, mapDispatchToProps)(MainScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
