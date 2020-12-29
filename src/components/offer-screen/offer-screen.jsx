@@ -41,13 +41,15 @@ const OfferScreen = ({
     host,
     isFavorite,
   } = hotel;
-  const { avatarUrl, isPro, name } = host;
+  const { avatarUrl, name } = host;
 
-  const handleFavoriteBtnClick = useCallback((evt) => {
-    evt.preventDefault();
-    favoriteBtnClickHandler(id, +!isFavorite);
-    loadHotel(id);
-  }, [favoriteBtnClickHandler, id, isFavorite]);
+  const handleFavoriteBtnClick = useCallback(
+    (evt) => {
+      evt.preventDefault();
+      favoriteBtnClickHandler(id, +!isFavorite);
+    },
+    [favoriteBtnClickHandler, id, isFavorite]
+  );
 
   useEffect(() => {
     if (!isFetched) {
@@ -66,8 +68,13 @@ const OfferScreen = ({
   const ratingWidth = (Math.round(rating) * RATING_ELEMENT_WIDTH) / MAX_RATING;
 
   const defaultFavoriteBtnClasses = [`property__bookmark-button button`];
-  const activeFavoriteBtnClasses = [...defaultFavoriteBtnClasses, `property__bookmark-button--active`];
-  const favoriteBtnClasses = isFavorite ? activeFavoriteBtnClasses.join(` `) : defaultFavoriteBtnClasses.join(``);
+  const activeFavoriteBtnClasses = [
+    ...defaultFavoriteBtnClasses,
+    `property__bookmark-button--active`,
+  ];
+  const favoriteBtnClasses = isFavorite
+    ? activeFavoriteBtnClasses.join(` `)
+    : defaultFavoriteBtnClasses.join(``);
 
   return (
     isLoaded && (
@@ -113,6 +120,17 @@ const OfferScreen = ({
                     onClick={handleFavoriteBtnClick}
                     disabled={authStatus === AuthorizationStatus.NO_AUTH}
                   >
+                    {authStatus === AuthorizationStatus.NO_AUTH ? (
+                      <Link to={appRoute.SIGN_IN}>
+                        <svg
+                          className="property__bookmark-icon  place-card__bookmark-icon"
+                          width="31"
+                          height="33"
+                        >
+                          <use xlinkHref="#icon-bookmark"></use>
+                        </svg>
+                      </Link>
+                    ) : (
                       <svg
                         className="property__bookmark-icon  place-card__bookmark-icon"
                         width="31"
@@ -120,8 +138,7 @@ const OfferScreen = ({
                       >
                         <use xlinkHref="#icon-bookmark"></use>
                       </svg>
-                    
-
+                    )}
                     <span className="visually-hidden">To bookmarks</span>
                   </button>
                 </div>

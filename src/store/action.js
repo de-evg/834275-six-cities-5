@@ -11,7 +11,9 @@ const ActionType = {
   UPDATE_HOTEL: `UPDATE_HOTEL`,
   LOAD_NEAR_HOTELS: `LOAD_NEAR_HOTELS`,
   LOGIN: `LOGIN`,
-  CHANGE_FAVORITE_STATUS: `CHANGE_FAVORITE_STATUS` 
+  CHANGE_FAVORITE_STATUS: `CHANGE_FAVORITE_STATUS`,
+  UPDATE_REVIEWS: `UPDATE_REVIEWS`,
+  RESET_POST_STATUS: `RESET_POST_STATUS`
 };
 
 const ActionCreator = {
@@ -61,6 +63,13 @@ const ActionCreator = {
     type: `LOGIN`,
     payload: userInfo,
   }),
+  updateReviews: (reviews) => ({
+    type: `UPDATE_REVIEWS`,
+    payload: reviews
+  }),
+  resetReviewPost: () => ({
+    type: `RESET_POST_STATUS`,    
+  })
 };
 
 export { ActionCreator, ActionType };

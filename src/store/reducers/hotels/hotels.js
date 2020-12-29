@@ -60,11 +60,29 @@ export const hotels = (state = initialState, action) => {
       return { ...state, nearHotels: adaptedNearHotels };
 
     case ActionType.UPDATE_HOTEL:
-      adaptedHotel = adaptHotelServerToClient(action.payload)
-      const findeIndex = state.hotels
-        .findIndex((hotel) => hotel.id === adaptedHotel.id)
-      const updatedHotels = [...state.hotels.slice(0, findeIndex), adaptedHotel, ...state.hotels.slice(findeIndex + 1)];
-      return { ...state, hotels:  updatedHotels};
+      adaptedHotel = adaptHotelServerToClient(action.payload);
+      const findeIndexHotel = state.hotels.findIndex(
+        (hotel) => hotel.id === adaptedHotel.id
+      );
+      const updatedHotels = [
+        ...state.hotels.slice(0, findeIndexHotel),
+        adaptedHotel,
+        ...state.hotels.slice(findeIndexHotel + 1),
+      ];
+      const findeIndexNearHotel = state.nearHotels.findIndex(
+        (hotel) => hotel.id === adaptedHotel.id
+      );
+      const updatedNearHotels = [
+        ...state.nearHotels.slice(0, findeIndexNearHotel),
+        adaptedHotel,
+        ...state.nearHotels.slice(findeIndexNearHotel + 1),
+      ];
+
+      if (adaptedHotel.id === state.hotel.id) {
+        return { ...state, hotels: updatedHotels, nearHotels: updatedNearHotels, hotel: adaptedHotel };
+      }
+      
+      return { ...state, hotels: updatedHotels, nearHotels: updatedNearHotels };
   }
 
   return state;

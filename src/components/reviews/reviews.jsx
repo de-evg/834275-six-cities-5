@@ -26,7 +26,7 @@ const Reviews = ({ offerID, reviews, loadReviews, authStatus }) => {
           <Review review={review} key={`review-${i}`} />
         ))}
       </ul>
-      {authStatus === AuthorizationStatus.AUTH && <UserReview />}            
+      {authStatus === AuthorizationStatus.AUTH && <UserReview id={offerID} />}            
     </section>
   );
 };

@@ -4,11 +4,12 @@ import { appRoute, RoomType } from "../../const";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { updateFavoriteStatus } from "../../store/api-action";
+import { AuthorizationStatus } from "../../const";
 
 const MAX_RATING = 5;
 const RATING_ELEMENT_WIDTH = 73;
 
-const OffersItem = ({ offer, favoriteBtnClickHandler }) => {
+const OffersItem = ({ offer, favoriteBtnClickHandler, authStatus }) => {
   const {
     isPremium,
     isFavorite,
@@ -21,14 +22,22 @@ const OffersItem = ({ offer, favoriteBtnClickHandler }) => {
   } = offer;
   const ratingWidth = (Math.round(rating) * RATING_ELEMENT_WIDTH) / MAX_RATING;
 
-  const handleFavoriteBtnClick = useCallback((evt) => {
-    evt.preventDefault();
-    favoriteBtnClickHandler(id, +!isFavorite);
-  }, [favoriteBtnClickHandler, id, isFavorite]);
+  const handleFavoriteBtnClick = useCallback(
+    (evt) => {
+      evt.preventDefault();
+      favoriteBtnClickHandler(id, +!isFavorite);
+    },
+    [favoriteBtnClickHandler, id, isFavorite]
+  );
 
   const defaultFavoriteBtnClasses = [`place-card__bookmark-button button`];
-  const activeFavoriteBtnClasses = [...defaultFavoriteBtnClasses, `place-card__bookmark-button--active`];
-  const favoriteBtnClasses = isFavorite ? activeFavoriteBtnClasses.join(` `) : defaultFavoriteBtnClasses.join(``);
+  const activeFavoriteBtnClasses = [
+    ...defaultFavoriteBtnClasses,
+    `place-card__bookmark-button--active`,
+  ];
+  const favoriteBtnClasses = isFavorite
+    ? activeFavoriteBtnClasses.join(` `)
+    : defaultFavoriteBtnClasses.join(``);
 
   return (
     <article className="cities__place-card place-card">
@@ -59,10 +68,23 @@ const OffersItem = ({ offer, favoriteBtnClickHandler }) => {
             onClick={handleFavoriteBtnClick}
             className={favoriteBtnClasses}
             type="button"
+            disabled={authStatus === AuthorizationStatus.NO_AUTH}
           >
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
+            {authStatus === AuthorizationStatus.NO_AUTH ? (
+              <Link to={appRoute.SIGN_IN}>
+                <svg
+                  className="place-card__bookmark-icon"
+                  width="18"
+                  height="19"
+                >
+                  <use xlinkHref="#icon-bookmark"></use>
+                </svg>
+              </Link>
+            ) : (
+              <svg className="place-card__bookmark-icon" width="18" height="19">
+                <use xlinkHref="#icon-bookmark"></use>
+              </svg>
+            )}
             <span className="visually-hidden">To bookmarks</span>
           </button>
         </div>
@@ -84,7 +106,12 @@ const OffersItem = ({ offer, favoriteBtnClickHandler }) => {
 OffersItem.propTypes = {
   offer: PropTypes.object.isRequired,
   favoriteBtnClickHandler: PropTypes.func.isRequired,
+  authStatus: PropTypes.string.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  authStatus: state.USER.authStatus,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   favoriteBtnClickHandler(id, status) {
@@ -92,4 +119,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(null, mapDispatchToProps)(OffersItem);
+export default connect(mapStateToProps, mapDispatchToProps)(OffersItem);

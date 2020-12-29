@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 
 const MAX_RATING = 5;
 
-const Review = ({review}) => {
-  const { comment, date, rating, user } = review
-  const { avatarUrl, isPro, name } = user;
+const Review = ({ review }) => {
+  const { comment, date, rating, user } = review;
+  const { avatarUrl, name } = user;
   const month = date.getMonth();
   const day = date.getDate();
   const year = date.getFullYear();
@@ -13,8 +13,8 @@ const Review = ({review}) => {
     year: `numeric`,
     month: `long`,
   });
-  const ratingToPercent = Math.round(rating) * 100 / MAX_RATING;
-
+  const ratingToPercent = (Math.round(rating) * 100) / MAX_RATING;
+  
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
@@ -49,10 +49,9 @@ Review.propTypes = {
   review: PropTypes.shape({
     comment: PropTypes.string.isRequired,
     date: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    avatarUrl: PropTypes.string.isRequired,
-    rating: PropTypes.number.isRequired
-  })  
+    user: PropTypes.object.isRequired,    
+    rating: PropTypes.number.isRequired,
+  }),
 };
 
 export default Review;

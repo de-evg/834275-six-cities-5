@@ -1,7 +1,21 @@
-import React from "react";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { updateFavoriteStatus } from "../../store/api-action";
 
-const FavoriteItem = ({ hotel }) => {
+const FavoriteItem = ({ hotel, favoriteBtnClickHandler }) => {
+
+  const {id, isFavorite} = hotel;
+
+  const handleFavoriteBtnClick = useCallback((evt) => {
+    evt.preventDefault();
+    favoriteBtnClickHandler(id, +!isFavorite);
+  }, [favoriteBtnClickHandler, id, isFavorite]);
+
+  const defaultFavoriteBtnClasses = [`place-card__bookmark-button button`];
+  const activeFavoriteBtnClasses = [...defaultFavoriteBtnClasses, `place-card__bookmark-button--active`];
+  const favoriteBtnClasses = isFavorite ? activeFavoriteBtnClasses.join(` `) : defaultFavoriteBtnClasses.join(``);
+
   return (
     <li className="favorites__locations-items">
                 <div className="favorites__locations locations locations--current">
@@ -33,8 +47,9 @@ const FavoriteItem = ({ hotel }) => {
                           </span>
                         </div>
                         <button
-                          className="place-card__bookmark-button place-card__bookmark-button--active button"
+                          className={favoriteBtnClasses}
                           type="button"
+                          onClick={handleFavoriteBtnClick}
                         >
                           <svg
                             className="place-card__bookmark-icon"
@@ -64,7 +79,14 @@ const FavoriteItem = ({ hotel }) => {
 };
 
 FavoriteItem.propTypes = {
-  hotel: PropTypes.object.isRequired
+  hotel: PropTypes.object.isRequired,
+  favoriteBtnClickHandler: PropTypes.func.isRequired,
 };
 
-export default FavoriteItem;
+const mapDispatchToProps = (dispatch) => ({
+  favoriteBtnClickHandler(id, status) {
+    dispatch(updateFavoriteStatus(id, status));
+  },
+});
+
+export default connect(null, mapDispatchToProps)(FavoriteItem);
