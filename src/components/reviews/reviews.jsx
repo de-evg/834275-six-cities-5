@@ -6,6 +6,11 @@ import { fetchReviews } from "../../store/api-action";
 import UserReview from "../user-review/user-review";
 import {AuthorizationStatus} from "../../const";
 
+const REVIEWS_COUNT = {
+  MIN: 0,
+  MAX: 10
+};
+
 const Reviews = ({ offerID, reviews, loadReviews, authStatus }) => {
   const [isReviewsLoaded, setReviewsLoadedStatis] = useState(false); 
 
@@ -22,7 +27,10 @@ const Reviews = ({ offerID, reviews, loadReviews, authStatus }) => {
         Reviews &middot; <span className="reviews__amount">{reviews.length}</span>
       </h2>
       <ul className="reviews__list">
-        {reviews.map((review, i) => (
+        {reviews
+        .sort((a, b) => b.date - a.date)
+        .slice(REVIEWS_COUNT.MIN, REVIEWS_COUNT.MAX)
+        .map((review, i) => (
           <Review review={review} key={`review-${i}`} />
         ))}
       </ul>
