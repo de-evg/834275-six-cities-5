@@ -1,5 +1,4 @@
 import { createSelector } from "reselect";
-import { SortType } from "./const";
 
 const sortOffers = (sortType, offers) => {
   switch (sortType) {
@@ -25,35 +24,7 @@ export const getFilteredOffers = createSelector(
   }
 );
 
-export const getNearOffers = createSelector(
+export const getFavoriteHotels = createSelector(
   (state) => state.HOTELS.hotels,
-  (state) => state.HOTELS.hotel,
-  (offers, filter) => {
-    let filteredOffers = [];
-    if (!filter.city) {
-      return filteredOffers;
-    }
-    filteredOffers = offers
-      .filter(
-        (offer) =>
-          offer.city.name === filter.city.name && offer.id !== filter.id
-      )
-      .sort((offerA, offerB) =>
-        Math.abs(
-          Math.sqrt(
-            Math.pow(filter.location.latitude - offerA.location.latitude, 2) +
-              Math.pow(filter.location.longitude - offerA.location.longitude, 2)
-          ) -
-            Math.sqrt(
-              Math.pow(filter.location.latitude - offerB.location.latitude, 2) +
-                Math.pow(
-                  filter.location.longitude - offerB.location.longitude,
-                  2
-                )
-            )
-        )
-      );
-
-    return filteredOffers;
-  }
+  (hotels) => hotels.filter((hotel) => hotel.isFavorite)
 );

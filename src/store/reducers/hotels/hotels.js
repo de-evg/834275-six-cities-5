@@ -29,6 +29,7 @@ const initialState = {
 };
 
 export const hotels = (state = initialState, action) => {
+  let adaptedHotel;
   switch (action.type) {
     case ActionType.LOAD_HOTELS:
       const adaptedHotels = action.payload.map((hotel) =>
@@ -37,7 +38,7 @@ export const hotels = (state = initialState, action) => {
       return { ...state, hotels: adaptedHotels };
 
     case ActionType.LOAD_HOTEL:
-      const adaptedHotel = adaptHotelServerToClient(action.payload);
+      adaptedHotel = adaptHotelServerToClient(action.payload);
       return { ...state, hotel: adaptedHotel };
 
     case ActionType.SET_ACTIVE_FILTER:
@@ -49,7 +50,7 @@ export const hotels = (state = initialState, action) => {
     case ActionType.RESET_HOTEL:
       return { ...state, hotel: initialState.hotel };
 
-    case ActionType.UPDATE_HOTEL:
+    case ActionType.UPDATE_HOTELS:
       return { ...state, hotels: action.payload };
 
     case ActionType.LOAD_NEAR_HOTELS:
@@ -57,6 +58,31 @@ export const hotels = (state = initialState, action) => {
         adaptHotelServerToClient(hotel)
       );
       return { ...state, nearHotels: adaptedNearHotels };
+
+    case ActionType.UPDATE_HOTEL:
+      adaptedHotel = adaptHotelServerToClient(action.payload);
+      const findeIndexHotel = state.hotels.findIndex(
+        (hotel) => hotel.id === adaptedHotel.id
+      );
+      const updatedHotels = [
+        ...state.hotels.slice(0, findeIndexHotel),
+        adaptedHotel,
+        ...state.hotels.slice(findeIndexHotel + 1),
+      ];
+      const findeIndexNearHotel = state.nearHotels.findIndex(
+        (hotel) => hotel.id === adaptedHotel.id
+      );
+      const updatedNearHotels = [
+        ...state.nearHotels.slice(0, findeIndexNearHotel),
+        adaptedHotel,
+        ...state.nearHotels.slice(findeIndexNearHotel + 1),
+      ];
+
+      if (adaptedHotel.id === state.hotel.id) {
+        return { ...state, hotels: updatedHotels, nearHotels: updatedNearHotels, hotel: adaptedHotel };
+      }
+      
+      return { ...state, hotels: updatedHotels, nearHotels: updatedNearHotels };
   }
 
   return state;

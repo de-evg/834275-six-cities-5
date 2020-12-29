@@ -5,7 +5,7 @@ import Offers from "../offers/offers";
 import User from "../user/user";
 import Map from "../map/map";
 import { connect } from "react-redux";
-import {ActionCreator} from "../../store/action";
+import { ActionCreator } from "../../store/action";
 
 const MainScreen = ({ resetActiveOffer }) => {
   useEffect(() => {
