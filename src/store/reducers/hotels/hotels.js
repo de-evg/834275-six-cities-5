@@ -2,7 +2,7 @@ import { adaptHotelServerToClient } from "../../../utils/adapter";
 import { ActionType } from "../../action";
 import { DEFAULT_ACTIVE_FILTER, DEFAULT_ACTIVE_SORT } from "../../../const";
 
-const initialState = {
+export const initialState = {
   hotels: [],
   filteredHotels: [],
   hotel: {

@@ -2,7 +2,7 @@ import { AuthorizationStatus } from "../../../const";
 import { ActionType } from "../../action";
 import { adaptUserInfoServerToClient } from "../../../utils/adapter";
 
-const initialState = {
+export const initialState = {
   authStatus: AuthorizationStatus.NO_AUTH,
   authError: false,
   userInfo: {},

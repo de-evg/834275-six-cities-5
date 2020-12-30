@@ -1,7 +1,7 @@
 import { ActionType } from "../../action";
 import { adaptReviewServerToClient } from "../../../utils/adapter";
 
-const initialState = {
+export const initialState = {
   reviews: [],
   isPostSuccess: false,
 };

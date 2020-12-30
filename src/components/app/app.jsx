@@ -22,11 +22,11 @@ const App = ({ authStatus }) => {
         />
 
         <Route exact path={appRoute.SIGN_IN}>
-          {
-            authStatus === AuthorizationStatus.AUTH 
-              ? <Redirect to={appRoute.MAIN} />
-              : <AuthScreen />
-          }
+          {authStatus === AuthorizationStatus.AUTH ? (
+            <Redirect to={appRoute.MAIN} />
+          ) : (
+            <AuthScreen />
+          )}
         </Route>
 
         <PrivateRoute
@@ -45,11 +45,12 @@ App.propTypes = {
       name: PropTypes.string.isRequired,
     }),
   }),
-  authStatus: PropTypes.string.isRequired
+  authStatus: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   authStatus: state.USER.authStatus,
 });
 
+export { App };
 export default connect(mapStateToProps)(App);
